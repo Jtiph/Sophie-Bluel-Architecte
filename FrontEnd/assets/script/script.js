@@ -7,7 +7,7 @@ function getWorks(category = "Tous") {
         //Manipule les données JSON récupérées
         .then(data => {
             //récup de la classe gallery 
-            const gallery = document.querySelector(".gallery");
+            const gallery = document.getElementById("gallery");
             gallery.innerHTML = ""; // vider la galerie à chaque clique sur un bouton 
             
             let filteredData;
@@ -55,7 +55,7 @@ function removeDuplicates(data) {
 }
 
 function getCategories(data){
-    const filterMenu = document.querySelector(".filter-menu"); //pour récup la classe des filtres
+    const filterMenu = document.getElementById("filter-menu"); //pour récup la classe des filtres
    filterMenu.innerHTML = "";
 
    const categories = removeDuplicates(data.map(project => project.category.name));
@@ -79,7 +79,7 @@ function getCategories(data){
 // gère l'apparence visu des boutons
 function filterActiveButton(activeButton) { 
     console.log("bouton actif:", activeButton.textContent);
-    
+
     const buttons = document.querySelectorAll('.filter-btn'); // récup de la classe bouton
     buttons.forEach(button => button.classList.remove('active')); // pour retirer la class active au bouton qu'on a cliqué précedemment comme ça on s'assure qu'il n'y en a qu'un en vert 
     activeButton.classList.add('active'); //on ajoute la classe active au bouton filter-btn
