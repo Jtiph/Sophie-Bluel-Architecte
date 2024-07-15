@@ -1,5 +1,4 @@
 
-
 function getWorks(category = "Tous") {
     //requête GET vers l'api pour récup les données des projets
     fetch("http://localhost:5678/api/works")
@@ -10,7 +9,7 @@ function getWorks(category = "Tous") {
             //récup de la classe gallery 
             const gallery = document.querySelector(".gallery");
             gallery.innerHTML = ""; // vider la galerie à chaque clique sur un bouton 
-
+            
             let filteredData;
             if (category === "Tous"){
                 filteredData = data // si la catégorie est tous, on affiche tous les projets
@@ -41,18 +40,26 @@ function getWorks(category = "Tous") {
                 gallery.appendChild(figure);
 
             });
+
+            if (category === "Tous") {
+                getCategories(data);
+            }
         })
 
         //Capture et affiche toutes les erreurs lors de la récup des données
         .catch(error => console.error("Erreur lors de la récupération des données:", error));
 }
 
-getWorks()
+function removeDuplicates(data) {
+    return [...new Set(data)];    
+}
 
-function getCategories(){
+function getCategories(data){
     const filterMenu = document.querySelector(".filter-menu"); //pour récup la classe des filtres
-    const categories = new Set(["Tous","Objets", "Appartements", "Hotels & restaurants"]); //récup des données catégories
+   filterMenu.innerHTML = "";
 
+   const categories = removeDuplicates(data.map(project => project.category.name));
+   categories.unshift("Tous");
 
     categories.forEach(category => {
         const button = document.createElement('button'); //création d'un bouton 
@@ -60,26 +67,22 @@ function getCategories(){
         button.classList.add('filter-btn'); // ajout de la class filter-btn
 
         button.addEventListener('click', () =>{
-            if (category === "Tous") { // si le texte du bouton category = tous alors on affiche ts les projets 
-                getWorks();
-            } else {
-                getWorks(category); //sinon on affiche les projets de la caté sur laquelle on a cliqué
-            }
-
+            getWorks(category);
             filterActiveButton(button); //change l'aspect du bouton quand on clique dessus 
         });
 
         filterMenu.appendChild(button); // ajout du bouton à la classe filter-menu
     });
-}
 
-getCategories();
+}
 
 // gère l'apparence visu des boutons
 function filterActiveButton(activeButton) { 
+    console.log("bouton actif:", activeButton.textContent);
+    
     const buttons = document.querySelectorAll('.filter-btn'); // récup de la classe bouton
     buttons.forEach(button => button.classList.remove('active')); // pour retirer la class active au bouton qu'on a cliqué précedemment comme ça on s'assure qu'il n'y en a qu'un en vert 
     activeButton.classList.add('active'); //on ajoute la classe active au bouton filter-btn
 }
 
-
+getWorks()
