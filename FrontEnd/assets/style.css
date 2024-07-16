@@ -156,7 +156,7 @@ li:hover {
 	font-size: 16px;
 	cursor: pointer;
 }
-.filter-btn.active{
+.filter-btn.current-btn{
 	background-color: #1D6154;
 	color: white;
 }

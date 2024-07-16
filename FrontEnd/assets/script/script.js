@@ -1,4 +1,6 @@
 
+let works; //variable globale pour stocker les projets
+
 function getWorks(category = "Tous") {
     //requête GET vers l'api pour récup les données des projets
     fetch("http://localhost:5678/api/works")
@@ -6,19 +8,23 @@ function getWorks(category = "Tous") {
         .then(response => response.json())
         //Manipule les données JSON récupérées
         .then(data => {
-            //récup de la classe gallery 
-            const gallery = document.getElementById("gallery");
-            gallery.innerHTML = ""; // vider la galerie à chaque clique sur un bouton 
-            
-            let filteredData;
-            if (category === "Tous"){
-                filteredData = data // si la catégorie est tous, on affiche tous les projets
-            } else {
-                filteredData = data.filter(project => project.category.name === category); // sinon on affiche les projets de la caté qui correspond au bouton cliqué
-            }
+            works = data
+            displayWorks(works);
+            getCategories(works);
+        })
+
+     //Capture et affiche toutes les erreurs lors de la récup des données
+     .catch(error => console.error("Erreur lors de la récupération des données:", error));
+}
+
+function displayWorks(projects){
+      //récup de la classe gallery 
+      const gallery = document.getElementById("gallery");
+      gallery.innerHTML = ""; // vider la galerie à chaque clique sur un bouton 
+
 
             //Parcours chaque projet dans les données récup
-            filteredData.forEach(project => {
+            projects.forEach(project => {
                 //Création de l'élément figure pour chaque projet
                 const figure = document.createElement("figure");
 
@@ -41,25 +47,33 @@ function getWorks(category = "Tous") {
 
             });
 
-            if (category === "Tous") {
-                getCategories(data);
-            }
-        })
-
-        //Capture et affiche toutes les erreurs lors de la récup des données
-        .catch(error => console.error("Erreur lors de la récupération des données:", error));
 }
 
+//Foncion pour filtrer les projets par catégorie
+function filterProjects(category){
+    let filteredData;
+    if (category === "Tous"){
+        filteredProjects = works // si la catégorie est tous, on affiche tous les projets
+    } else {
+        filteredProjects = works.filter(project => project.category.name === category); // sinon on affiche les projets de la caté qui correspond au bouton cliqué
+    }
+    displayWorks(filteredProjects);
+}
+
+//Fonction pour supprimer les doublons des catégories 
 function removeDuplicates(data) {
     return [...new Set(data)];    
 }
 
-function getCategories(data){
-    const filterMenu = document.getElementById("filter-menu"); //pour récup la classe des filtres
-   filterMenu.innerHTML = "";
 
+function getCategories(data){
    const categories = removeDuplicates(data.map(project => project.category.name));
    categories.unshift("Tous");
+   createFilterButtons(categories);
+}
+
+function createFilterButtons(categories){
+    const filterMenu = document.getElementById("filter-menu");
 
     categories.forEach(category => {
         const button = document.createElement('button'); //création d'un bouton 
@@ -67,22 +81,24 @@ function getCategories(data){
         button.classList.add('filter-btn'); // ajout de la class filter-btn
 
         button.addEventListener('click', () =>{
-            getWorks(category);
-            filterActiveButton(button); //change l'aspect du bouton quand on clique dessus 
+            filterByCategory(button); //change l'aspect du bouton quand on clique dessus 
+            filterProjects(category);
         });
 
         filterMenu.appendChild(button); // ajout du bouton à la classe filter-menu
     });
-
 }
 
+  
 // gère l'apparence visu des boutons
-function filterActiveButton(activeButton) { 
+function filterByCategory(activeButton) { 
     console.log("bouton actif:", activeButton.textContent);
 
     const buttons = document.querySelectorAll('.filter-btn'); // récup de la classe bouton
-    buttons.forEach(button => button.classList.remove('active')); // pour retirer la class active au bouton qu'on a cliqué précedemment comme ça on s'assure qu'il n'y en a qu'un en vert 
-    activeButton.classList.add('active'); //on ajoute la classe active au bouton filter-btn
+    buttons.forEach(button => button.classList.remove('current-btn')); // pour retirer la class active au bouton qu'on a cliqué précedemment comme ça on s'assure qu'il n'y en a qu'un en vert 
+    activeButton.classList.add('current-btn'); //on ajoute la classe active au bouton filter-btn
+
+    console.log("bouton actif 2", activeButton.textContent);
 }
 
-getWorks()
+getWorks();
