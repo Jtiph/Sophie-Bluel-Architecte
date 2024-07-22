@@ -178,7 +178,7 @@ li:hover {
 #contact h2, #login h2{
 	margin-bottom: 20px;
 }
-#contact form, #login form {
+#contact form, #loginForm {
 	text-align: left;
 	margin-top:30px;
 	display: flex;
