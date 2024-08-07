@@ -1,5 +1,38 @@
 
 let works; //variable globale pour stocker les projets
+const loginButton = document.getElementById("loginBtn"); // Bouton de connexion
+const logoutBtn = document.getElementById("logoutBtn"); // Bouton de déconnexion
+const modificationBtn = document.getElementById("modificationBtn"); // Bouton modifier
+const containerModal = document.getElementById("containerModal"); //boite de la modale
+const modalClose = document.getElementById("modalClose");
+
+//Fonction pour mettre à jour l'interface utilisateur en fonction du token
+function updateUI() {
+    const token = window.localStorage.getItem("token");
+    if (token) {
+        //Si un token est présent,  cacher login, afficher logout
+        loginBtn.style.display = "none";
+        logoutBtn.style.display = "block";
+        modificationBtn.style.display = "block"; //affiche le btn de modif si co
+    } else {
+        //Si aucun token n'est présent, afficher le bouton login, cacher le logout
+        loginBtn.style.display = "block";
+        logoutBtn.style.display = "none";
+        modificationBtn.style.display = "none"; //cache le btn de modif si non co
+    }
+}
+
+updateUI();
+
+//fonction pour gérer la déco
+function handleLogout() {
+    window.localStorage.removeItem("token"); //supprime le token de localStorage
+    updateUI(); //met à jour l'interface utilisateur
+}
+
+//event de clic sur le bouton de déco
+logoutBtn.addEventListener("click", handleLogout); 
+
 
 function getWorks(category = "Tous") {
     //requête GET vers l'api pour récup les données des projets
@@ -51,7 +84,7 @@ function displayWorks(projects){
 
 //Foncion pour filtrer les projets par catégorie
 function filterProjects(category){
-    let filteredData;
+    let filteredProjects;
     if (category === "Tous"){
         filteredProjects = works // si la catégorie est tous, on affiche tous les projets
     } else {
@@ -102,3 +135,30 @@ function filterByCategory(activeButton) {
 }
 
 getWorks();
+
+//gestion de l'affichage de la modale 
+function displayModal(){
+    //ouverture de la modale au clique sur modifier
+    modificationBtn.addEventListener("click", ()=>{
+        console.log("modificationBtn")
+        containerModal.style.display ="flex";
+    });
+    //fermeture au clique sur la croix 
+    modalClose.addEventListener("click", ()=>{
+        console.log("modalClose")
+        containerModal.style.display ="none";
+    });
+    //fermeture au clique en dehors/autour de la modale
+    containerModal.addEventListener("click", (e)=>{
+        if (e.target.id == "containerModal") {
+            containerModal.style.display ="none";
+            }
+    });
+}
+displayModal();
+
+
+
+
+
+

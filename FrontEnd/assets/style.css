@@ -166,7 +166,20 @@ li:hover {
 	background-color: #1D6154;
 	color: white;
 }
-
+#modificationBtn{
+	background: none;
+	border: none;
+	display: flex;
+	align-items: baseline;
+	gap: 10px;
+	position: absolute;
+	left: 690px;
+	top: 493px;
+	cursor: pointer;
+}
+#modificationBtn i{
+	font-size: 15px;
+}
 #contact, #login {
 	width: 50%;
 	margin: auto;
@@ -209,6 +222,59 @@ input[type="submit"]{
 	text-align: center;
 	border-radius: 60px ;
 	border: #1D6154; /*ajouter par moi*/
+}
+#logoutBtn, #modificationBtn{
+	display: none;
+}
+/*modale*/
+#containerModal{
+	display: none;
+	display: flex;
+	position: fixed;
+	top: 0;
+	left: 0;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(128, 128, 128, 0.264);
+
+}
+#modalTitle{
+	font-family: 'work sans';
+	font-weight: 400;
+	color: black;
+}
+#modalGarage{
+	background-color: white;
+	width: 100%;
+	max-width: 630px;
+	height: 688px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+
+}
+#modalClose{
+	position: relative;
+	top: 20px;
+	left: 276px;
+	cursor: pointer;
+	font-size: 20px;
+}
+#modalBtn{
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;
+	background-color: #1D6154;
+	margin : 2em auto ;
+	width: 100%;
+	max-width: 237px;
+	height: 36px;
+	text-align: center;
+	border-radius: 60px ;
+	border: #1D6154; 
 }
 
 footer{
