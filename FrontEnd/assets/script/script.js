@@ -3,22 +3,7 @@ let works; //variable globale pour stocker les projets
 const loginButton = document.getElementById("loginBtn"); // Bouton de connexion
 const logoutBtn = document.getElementById("logoutBtn"); // Bouton de déconnexion
 const modificationBtn = document.getElementById("modificationBtn"); // Bouton modifier
-const containerModal = document.getElementById("containerModal"); //boite de la modale
-const modalClose = document.getElementById("modalClose"); //bouton pour fermer la modale 
-const galleryModal = document.getElementById("galleryModal"); 
-const modalBtn = document.getElementById("modalBtn");
-const modalGallery = document.getElementById("modalGallery")
-const modalAddWorks = document.getElementById("modalAddWorks");
-const modalArrow = document.getElementById("modalArrowLeft");
-const modalAddClose = document.getElementById("modalAddClose");
-const previewImg = document.getElementById("containerFileImg")
-const inputFile = document.getElementById("file");
-const labelFile = document.querySelector("#containerFile label");
-const modalAddPhoto = document.getElementById("modalAddPhoto");
-const modalAddp = document.getElementById("modalAddp");
-const modalForm = document.querySelector("#modalAddWorks Form");
-const modalAddTitle = document.getElementById("modalAddTitle");
-const modalAddCategory = document.getElementById("category");
+
 
 
 
@@ -139,8 +124,7 @@ function createFilterButtons(categories){
         filterMenu.appendChild(button); // ajout du bouton à la classe filter-menu
     });
 }
-
-  
+ 
 // gère l'apparence visu des boutons
 function filterByCategory(activeButton) { 
     console.log("bouton actif:", activeButton.textContent);
@@ -152,141 +136,3 @@ function filterByCategory(activeButton) {
 }
 
 getWorks();
-
-//gestion de l'affichage de la modale 
-function displayModal(){
-    //ouverture de la modale au clique sur modifier
-    modificationBtn.addEventListener("click", ()=>{
-        console.log("modificationBtn")
-        containerModal.style.display ="flex";
-    });
-    //fermeture au clique sur la croix 
-    modalClose.addEventListener("click", ()=>{
-        console.log("modalClose")
-        containerModal.style.display ="none";
-    });
-    //fermeture au clique en dehors/autour de la modale
-    containerModal.addEventListener("click", (e)=>{
-        if (e.target.id == "containerModal") {
-            containerModal.style.display ="none";
-            }
-    });
-}
-displayModal();
-
-function displayGalleryModal(){
-    if(!galleryModal) return;
-    galleryModal.innerHTML = ""
-
-    if (!works || works.length === 0) {
-        console.log("Aucun projet à afficher.");
-        return;
-    }
-
-    works.forEach(project => {
-        const figure = document.createElement("figure")
-        const img = document.createElement("img")
-        const span = document.createElement("span")
-        const trash = document.createElement("i")
-
-        trash.classList.add("fa-solid","fa-trash-can")
-        trash.id = project.id
-        trash.alt = project.title
-        img.src = project.imageUrl
-        span.appendChild(trash)
-        figure.appendChild(span)
-        figure.appendChild(img)
-        galleryModal.appendChild(figure)
-    });
-    deleteProject(); // Gère les suppressions de projets
-}
-
-// Fonction pour gérer les suppressions de projets
-function deleteProject() {
-    const trashAll = document.querySelectorAll(".fa-trash-can");
-
-    trashAll.forEach(trash => {
-        trash.addEventListener("click", () => {
-            const id = trash.id;
-            fetch(`http://localhost:5678/api/works/${id}`, {
-                method: "DELETE",
-                headers: { "Content-Type": "application/json" }
-            })
-
-                .then(response => {
-                    if (response.ok) {
-                        console.log("Le delete a réussi");
-                        return getWorks(); // Recharge les projets après la suppression
-                    } else {
-                        console.error("Le delete a échoué");
-                    }
-                })
-                .then(() => {
-                    displayGalleryModal(); // Met à jour la modale après re-fetch
-                })
-                .catch(error => console.error("Erreur lors de la suppression:", error));
-        });
-    });
-}
-
-function displayAddModal (){
-    modalBtn.addEventListener("click",()=>{
-        modalAddWorks.style.display = "flex";
-        modalGallery.style.display = "none";
-    })
-    modalArrow.addEventListener("click",()=>{
-        modalAddWorks.style.display = "none";
-        modalGallery.style.display = "flex";
-    })
-    modalAddClose.addEventListener("click",()=>{
-        containerModal.style.display = "none";
-    })
-    
-}
-
-displayAddModal();
-
-inputFile.addEventListener("change",()=>{
-    const file = inputFile.files[0];
-    console.log(file);
-    if (file){
-        const reader = new FileReader();
-        reader.onload = function (e){
-           previewImg.src = e.target.result; 
-           previewImg.style.display = "flex";
-           labelFile.style.display = "none";
-           modalAddPhoto.style.display = "none";
-           modalAddp.style.display = "none";
-        }
-        reader.readAsDataURL(file);
-    }
-})
-
-function displayCategoryModal(){
-    const select = document.getElementById("modalCategory");
-    const categories = getCategories();
-    categories.forEach(category =>{
-        const option = document.createElement("option")
-        option.value = category.id 
-        option.textContent = category.name 
-        select.appendChild(option);    
-    })
-}
-displayCategoryModal();
-
-modalForm.addEventListener("submit", (e)=>{
-    e.preventDefault();
-    const formData =  new FormData(modalForm);
-    fetch("http://localhost:5678/api/works",{
-        method : "POST",
-        body:formData
-    })
-    .then(response => response.json())
-    .then(data =>{
-        console.log(data);
-        console.log('voici la photo ajouté',data)
-        displayGalleryModal()
-        displayWorks()
-    })
-})
-
