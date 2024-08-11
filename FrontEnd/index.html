@@ -85,6 +85,7 @@
 		<div id="modalAddWorks">
 			<span id="modalArrowLeft"><i class="fa-solid fa-arrow-left"></i></span>
 			<span id="modalAddClose"><i class="fa-solid fa-xmark"></i></span>
+			<div class="modalTrait"></div>
 			<h2 id="modalAddTitle">Ajout photo</h2>
 			<form>
 				<div id="containerFile">
@@ -97,7 +98,8 @@
 				<label for="title">Titre</label>
 				<input type="text" id="title" name="title">
 				<label for="modalCategory">Catégorie</label>
-				<select type="text" id="modalCategory"></select>
+				<select type="text" id="modalCategory" name="category"></select>
+				<div class="modalTrait"></div>
 				<button id="modalAddBtn" disabled>Valider</button>
 			</form>
 			<p id="messageError"></p>

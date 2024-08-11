@@ -12,12 +12,12 @@ function updateUI() {
     const token = window.localStorage.getItem("token");
     if (token) {
         //Si un token est présent,  cacher login, afficher logout
-        loginBtn.style.display = "none";
+        loginButton.style.display = "none";
         logoutBtn.style.display = "block";
         modificationBtn.style.display = "block"; //affiche le btn de modif si co
     } else {
         //Si aucun token n'est présent, afficher le bouton login, cacher le logout
-        loginBtn.style.display = "block";
+        loginButton.style.display = "block";
         logoutBtn.style.display = "none";
         modificationBtn.style.display = "none"; //cache le btn de modif si non co
     }

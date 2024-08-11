@@ -311,6 +311,13 @@ input[type="submit"]{
 	font-size: 20px;
 
 }
+#modalTrait{
+	width: 100%;
+	height: 2px;
+	background-color: #B3B3B3;
+	margin-bottom: 10px;
+
+}
 #modalBtn{
 	font-family: 'Syne';
 	font-weight: 700;

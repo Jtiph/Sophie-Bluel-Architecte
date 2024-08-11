@@ -46,8 +46,8 @@ function deleteProject(projectId) {
             console.log(`Le projet avec l'id ${projectId} a été supprimé.`);
             // Mettre à jour la liste des projets et rafraîchir la galerie
             works = works.filter(project => project.id !== projectId);
-            displayGallery(works, "gallery"); // Recharger la galerie principale
-            displayGallery(works, "galleryModal"); // Recharger la galerie dans la modale
+            displayWorks(works, "gallery"); // Recharger la galerie principale
+            displayWorks(works, "galleryModal"); // Recharger la galerie dans la modale
         } else {
             console.error("Le delete a échoué");
         }
@@ -120,6 +120,7 @@ fetchCategories();
 modalForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const formData = new FormData(modalForm);
+    console.log(formData);
     fetch("http://localhost:5678/api/works", {
         method: "POST",
         headers: { 
@@ -131,6 +132,7 @@ modalForm.addEventListener("submit", (e) => {
     .then(response => response.json())
     .then(data => {
         console.log("Projet ajouté:", data);
+        
         if (data.error){
             console.error("Erreur lors de l'ajout du projet:", data.error);
             alert("Erreur lors de l'ajout du projet.");
