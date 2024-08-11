@@ -32,7 +32,7 @@ function handleLogout() {
 }
 
 //event de clic sur le bouton de déco
-logoutBtn.addEventListener("click", handleLogout); 
+logoutBtn.addEventListener("click", handleLogout);
 
 
 function getWorks(category = "Tous") {
@@ -48,47 +48,67 @@ function getWorks(category = "Tous") {
             return data;
         })
 
-     //Capture et affiche toutes les erreurs lors de la récup des données
-     .catch(error => console.error("Erreur lors de la récupération des données:", error));
-    
+        //Capture et affiche toutes les erreurs lors de la récup des données
+        .catch(error => console.error("Erreur lors de la récupération des données:", error));
+
 }
 
-function displayWorks(projects){
-      //récup de la classe gallery 
-      const gallery = document.getElementById("gallery");
-      gallery.innerHTML = ""; // vider la galerie à chaque clique sur un bouton 
+function displayWorks(projects) {
+    //récup de la classe gallery 
+    const gallery = document.getElementById("gallery");
+    const galleryModal = document.getElementById("galleryModal")
+
+    gallery.innerHTML = ""; // vider la galerie à chaque clique sur un bouton 
+    galleryModal.innerHTML = ""; // vider la galerie à chaque clique sur un bouton 
 
 
-            //Parcours chaque projet dans les données récup
-            projects.forEach(project => {
-                //Création de l'élément figure pour chaque projet
-                const figure = document.createElement("figure");
+    //Parcours chaque projet dans les données récup
+    projects.forEach(project => {
+        //Création de l'élément figure pour chaque projet
+        const figure = document.createElement("figure");
 
-                //Création de l'élement img et affichage
-                const img = document.createElement("img");
-                img.src = project.imageUrl; //Url de l'image
-                img.alt = project.title; //texte alt de l'image
+        //Création de l'élement img et affichage
+        const img = document.createElement("img");
+        img.src = project.imageUrl; //Url de l'image
+        img.alt = project.title; //texte alt de l'image
 
-                //Création de l'élement figcaption pour afficher les descriptions sous les projets
-                const figcaption = document.createElement("figcaption");
-                figcaption.textContent = project.title; //titre du projet 
+        //Création de l'élement figcaption pour afficher les descriptions sous les projets
+        const figcaption = document.createElement("figcaption");
+        figcaption.textContent = project.title; //titre du projet 
 
-                //Ajoute l'élement img à l'intérieur de figure 
-                figure.appendChild(img);
-                //Same pour figcaption
-                figure.appendChild(figcaption);
+        //Ajoute l'élement img à l'intérieur de figure 
+        figure.appendChild(img);
+        //Same pour figcaption
+        figure.appendChild(figcaption);
 
-                //Ajout de figure dans la galerie
-                gallery.appendChild(figure);
+        //Ajout de figure dans la galerie
+        gallery.appendChild(figure);
 
-            });
+        // Clonage de l'élément figure pour l'ajouter à la galerie de la modale
+        const figureClone = figure.cloneNode(true);
 
+        // ajout de l'icone de suppresion 
+        const trash = document.createElement("i");
+        trash.classList.add("fa-solid", "fa-trash-can");
+        trash.id = `delete-icon-${project.id}`; // assure que chaque icone de suppression a un identifiant unique
+
+        // Ajouter l'icône de suppression au clone
+        figureClone.appendChild(trash);
+
+        // Ajouter un événement de suppression au clone dans la modale
+        trash.addEventListener("click", () => {
+            deleteProject(project.id);
+        });
+
+        // Ajout du clone dans la galerie de la modale
+        galleryModal.appendChild(figureClone);
+    });
 }
 
 //Foncion pour filtrer les projets par catégorie
-function filterProjects(category){
+function filterProjects(category) {
     let filteredProjects;
-    if (category === "Tous"){
+    if (category === "Tous") {
         filteredProjects = works // si la catégorie est tous, on affiche tous les projets
     } else {
         filteredProjects = works.filter(project => project.category.name === category); // sinon on affiche les projets de la caté qui correspond au bouton cliqué
@@ -98,17 +118,17 @@ function filterProjects(category){
 
 //Fonction pour supprimer les doublons des catégories 
 function removeDuplicates(data) {
-    return [...new Set(data)];    
+    return [...new Set(data)];
 }
 
 
-function getCategories(data){
-   const categories = removeDuplicates(data.map(project => project.category.name));
-   categories.unshift("Tous");
-   createFilterButtons(categories);
+function getCategories(data) {
+    const categories = removeDuplicates(data.map(project => project.category.name));
+    categories.unshift("Tous");
+    createFilterButtons(categories);
 }
 
-function createFilterButtons(categories){
+function createFilterButtons(categories) {
     const filterMenu = document.getElementById("filter-menu");
 
     categories.forEach(category => {
@@ -116,7 +136,7 @@ function createFilterButtons(categories){
         button.textContent = category; //donne le nom de la caté dans le html "tous""objets" etc, ce qui se trouve dans le set
         button.classList.add('filter-btn'); // ajout de la class filter-btn
 
-        button.addEventListener('click', () =>{
+        button.addEventListener('click', () => {
             filterByCategory(button); //change l'aspect du bouton quand on clique dessus 
             filterProjects(category);
         });
@@ -124,9 +144,9 @@ function createFilterButtons(categories){
         filterMenu.appendChild(button); // ajout du bouton à la classe filter-menu
     });
 }
- 
+
 // gère l'apparence visu des boutons
-function filterByCategory(activeButton) { 
+function filterByCategory(activeButton) {
     console.log("bouton actif:", activeButton.textContent);
 
     const buttons = document.querySelectorAll('.filter-btn'); // récup de la classe bouton

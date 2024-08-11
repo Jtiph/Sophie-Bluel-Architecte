@@ -248,9 +248,9 @@ input[type="submit"]{
 	padding-top: 30px;
 	padding-bottom: 19px;
 }
-#modalGallery{
+#modal1{
 	background-color: white;
-	width: 80%;
+	width: 70%;
 	max-width: 630px;
 	height: 80%;
 	display: flex;
@@ -259,7 +259,7 @@ input[type="submit"]{
 	justify-content: space-between;
 	border-radius: 5px;
 	overflow: auto; /*ajout d'un défilement si le contenu dépasse la hauteur*/
-	padding: 20px; /*pour ajouter un peu d'espace autour du contenu*/
+	position: relative;
 
 }
 #galleryModal {
@@ -292,16 +292,24 @@ input[type="submit"]{
     top: 5px;
     right: 5px;
     cursor: pointer;
-    color: red; /* Ajoutez du contraste pour la visibilité */
-	font-size: 14px;
+    color: white; /* Ajoutez du contraste pour la visibilité */
+	font-size: 10px;
+	background-color: black;
+	width: 17px;
+	height: 17px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 3px;
 }
 
 #modalClose{
-	position: relative;
-	top: 25px;
-	left: 210px;
+	position: absolute;
+	top: 20px;
+	right: 20px;
 	cursor: pointer;
 	font-size: 20px;
+
 }
 #modalBtn{
 	font-family: 'Syne';
@@ -321,11 +329,12 @@ input[type="submit"]{
 	display: none;
 	position: relative;
 	background-color: white;
-	width: 80%;
+	width: 70%;
 	max-width: 630px;
 	height: 80%;
 	flex-direction: column;
 	align-items: center;
+	border-radius: 5px;
 
 }
 #modalArrowLeft{
@@ -342,6 +351,7 @@ input[type="submit"]{
 	font-size: 20px;
 	cursor: pointer;
 }
+
 #modalAddWorks form{
 	display: flex;
 	flex-direction: column;
