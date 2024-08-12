@@ -26,6 +26,7 @@ function displayModal() {
     //si on clique en dehors de la modale, containerModal disparait/se ferme
     containerModal.addEventListener("click", (e) => {
         if (e.target.id === "containerModal") {
+            resetFileInput();
             containerModal.style.display = "none";
         }
     });
@@ -54,13 +55,14 @@ function deleteProject(projectId) {
     })
     .catch(error => console.error("Erreur lors de la suppression:", error));
 }
-
+//gère les boutons de la modale 
 function displayAddModal() {
     modalBtn.addEventListener("click", () => {
         modalAddWorks.style.display = "flex";
         modal1.style.display = "none";
     });
     modalArrow.addEventListener("click", () => {
+        resetFileInput();
         modalAddWorks.style.display = "none";
         modal1.style.display = "flex";
     });
@@ -86,6 +88,8 @@ inputFile.addEventListener("change", () => {
         reader.readAsDataURL(file); // Lit le fichier et déclenche l'événement onload
     }
 });
+
+//fonction qui fectch les catégories 
 function fetchCategories() {
     fetch("http://localhost:5678/api/categories")
         .then(response => response.json())
@@ -93,6 +97,16 @@ function fetchCategories() {
             populateCategorySelect(categories);
         })
         .catch(error => console.error("Erreur lors de la récupération des catégories:", error));
+}
+
+//fonction pour enlever l'aperçu de l'image
+function resetFileInput() {
+    inputFile.value = ""; // Réinitialise le champ file
+    previewImg.src = "";  // Supprime l'aperçu de l'image
+    previewImg.style.display = "none"; // Cache l'élément d'aperçu
+    labelFile.style.display = "flex"; // Réaffiche le label du fichier
+    modalAddPhoto.style.display = "flex"; // Réaffiche l'icône de photo
+    modalAddp.style.display = "flex"; // Réaffiche le texte "jpg, png : 4mo max"
 }
 
 function populateCategorySelect(categories) {
