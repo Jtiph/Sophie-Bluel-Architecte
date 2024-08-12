@@ -19,11 +19,11 @@ loginForm.addEventListener("submit", (e) => { //écoute l'event submit (quand l'
         .then(response => response.json()) //convertit la réponse en JSON
         .then(data => {
             const messageError = document.getElementById("message"); //récup l'element msg 
-
+            const token = window.localStorage.getItem("token");
             if (data.token) { // vérifie si le serveur a retourné un token, ce qui signifie une connexion réussie
                 window.localStorage.setItem("token", data.token) //stock le token
                 messageError.textContent = "Connexion réussie!"; // msg de succès
-                updateUI();
+                window.location.href = "index.html";
             } else {
                 messageError.textContent = "Erreur : " + data.message; // si aucun token n'est retourné, on affiche le msg d'erreur retourné par le serveur
             }
@@ -34,3 +34,5 @@ loginForm.addEventListener("submit", (e) => { //écoute l'event submit (quand l'
             messageError.textContent = "Erreur de connexion. Veuillez réessayer."; //msg d'erreur pour l'utilisateur 
         });
 })
+
+

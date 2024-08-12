@@ -1,7 +1,7 @@
 
 let works; //variable globale pour stocker les projets
 const loginButton = document.getElementById("loginBtn"); // Bouton de connexion
-const logoutBtn = document.getElementById("logoutBtn"); // Bouton de déconnexion
+const logoutBtn = document.getElementById("logoutBtn"); // Bouton de connexion
 const modificationBtn = document.getElementById("modificationBtn"); // Bouton modifier
 
 
@@ -24,6 +24,7 @@ function updateUI() {
 }
 
 updateUI();
+
 
 //fonction pour gérer la déco
 function handleLogout() {
