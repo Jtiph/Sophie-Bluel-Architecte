@@ -35,7 +35,7 @@ function displayModal() {
 displayModal();
 
 function deleteProject(projectId) {
-    fetch(`http://localhost:5678/api/works/${projectId}`, {
+    fetch(`http://localhost:5678/api/works/1${projectId}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json", 
             "Authorization" : `Bearer ${window.localStorage.getItem("token")}` 
