@@ -4,9 +4,6 @@ const loginButton = document.getElementById("loginBtn"); // Bouton de connexion
 const logoutBtn = document.getElementById("logoutBtn"); // Bouton de connexion
 const modificationBtn = document.getElementById("modificationBtn"); // Bouton modifier
 
-
-
-
 //Fonction pour mettre à jour l'interface utilisateur en fonction du token
 function updateUI() {
     const token = window.localStorage.getItem("token");

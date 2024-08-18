@@ -418,11 +418,13 @@ input[type="submit"]{
 	text-align: center;
 	border-radius: 60px;
 	border: #B3B3B3;
-	cursor: pointer;
+	cursor: not-allowed;
 	
 }
-.valid{
-	background-color: green;
+/* CSS pour le bouton Valider activé */
+#modalAddBtn.valid {
+    background-color: green; /* Couleur verte lorsque le bouton est activé */
+    cursor: pointer;
 }
 footer{
 	background: white;

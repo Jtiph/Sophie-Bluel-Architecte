@@ -13,6 +13,7 @@ const modalAddPhoto = document.getElementById("modalAddPhoto");
 const modalAddp = document.getElementById("modalAddp");
 const modalForm = document.querySelector("#modalAddWorks Form");
 
+
 function displayModal() {
     modificationBtn.addEventListener("click", () => {
         console.log("modificationBtn")
@@ -26,6 +27,7 @@ function displayModal() {
     //si on clique en dehors de la modale, containerModal disparait/se ferme
     containerModal.addEventListener("click", (e) => {
         if (e.target.id === "containerModal") {
+            resetFormFields();
             resetFileInput();
             containerModal.style.display = "none";
         }
@@ -35,7 +37,7 @@ function displayModal() {
 displayModal();
 
 function deleteProject(projectId) {
-    fetch(`http://localhost:5678/api/works/1${projectId}`, {
+    fetch(`http://localhost:5678/api/works/${projectId}`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json", 
             "Authorization" : `Bearer ${window.localStorage.getItem("token")}` 
@@ -55,6 +57,8 @@ function deleteProject(projectId) {
     })
     .catch(error => console.error("Erreur lors de la suppression:", error));
 }
+
+
 //gère les boutons de la modale 
 function displayAddModal() {
     modalBtn.addEventListener("click", () => {
@@ -62,11 +66,13 @@ function displayAddModal() {
         modal1.style.display = "none";
     });
     modalArrow.addEventListener("click", () => {
+        resetFormFields();
         resetFileInput();
         modalAddWorks.style.display = "none";
         modal1.style.display = "flex";
     });
     modalAddClose.addEventListener("click", () => {
+        resetFormFields();
         containerModal.style.display = "none";
     });
 }
@@ -107,6 +113,12 @@ function resetFileInput() {
     labelFile.style.display = "flex"; // Réaffiche le label du fichier
     modalAddPhoto.style.display = "flex"; // Réaffiche l'icône de photo
     modalAddp.style.display = "flex"; // Réaffiche le texte "jpg, png : 4mo max"
+}
+// Fonction pour réinitialiser les champs du formulaire
+function resetFormFields() {
+    document.getElementById("title").value = ""; // Réinitialise le titre
+    document.getElementById("modalCategory").selectedIndex = 0; // Réinitialise la catégorie à l'option vide
+    resetFileInput(); // Réinitialise l'input file et l'aperçu de l'image
 }
 
 function populateCategorySelect(categories) {
@@ -151,8 +163,14 @@ modalForm.addEventListener("submit", (e) => {
             console.error("Erreur lors de l'ajout du projet:", data.error);
             alert("Erreur lors de l'ajout du projet.");
         } else {
+            works.push(data);
             displayWorks(works, "gallery");
             displayWorks(works, "galleryModal");
+            resetFileInput();
+
+            // Revenir à la galerie de la modale
+            modalAddWorks.style.display = "none"; // Cache le formulaire d'ajout
+            modal1.style.display = "flex"; // Affiche la galerie de la modale
         }
     })
     .catch(error => {
@@ -164,7 +182,7 @@ modalForm.addEventListener("submit", (e) => {
 function verifFormCompleted() {
     const btnValidForm = document.getElementById("modalAddBtn");
     modalForm.addEventListener("input", () => {
-        if (modalAddTitle.value !== "" && modalCategory.value !== "" && inputFile.value !== "") {
+        if (title.value !== "" && modalCategory.value !== "" && inputFile.value !== "") {
             btnValidForm.classList.add("valid");
             btnValidForm.disabled = false;
         } else {
