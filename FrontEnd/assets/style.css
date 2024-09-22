@@ -59,6 +59,18 @@ body {
 	background: #FFFEF8; /*ajout de la couleur du bg par moi*/
 	
 }
+#editBar {
+	display: none; /* Par défaut, la barre est cachée */
+	background-color: black;
+	color: white;
+	padding: 10px 0;
+	text-align: center;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 1000;
+}
 header {
 	display: flex;
 	justify-content: space-between;
@@ -172,10 +184,11 @@ li:hover {
 	display: flex;
 	align-items: baseline;
 	gap: 10px;
-	position: absolute;
-	left: 690px;
-	top: 493px;
+	position: relative;
+	left: 165px;
+	bottom: 53px;
 	cursor: pointer;
+	width: 100%;
 }
 #modificationBtn i{
 	font-size: 15px;

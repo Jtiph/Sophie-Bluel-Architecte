@@ -3,6 +3,7 @@ let works; //variable globale pour stocker les projets
 const loginButton = document.getElementById("loginBtn"); // Bouton de connexion
 const logoutBtn = document.getElementById("logoutBtn"); // Bouton de connexion
 const modificationBtn = document.getElementById("modificationBtn"); // Bouton modifier
+const editBar = document.getElementById('editBar'); // Récupération de la barre
 
 //Fonction pour mettre à jour l'interface utilisateur en fonction du token
 function updateUI() {
@@ -12,11 +13,13 @@ function updateUI() {
         loginButton.style.display = "none";
         logoutBtn.style.display = "block";
         modificationBtn.style.display = "block"; //affiche le btn de modif si co
+        editBar.style.display = 'block'; // Affiche la barre d'édition
     } else {
         //Si aucun token n'est présent, afficher le bouton login, cacher le logout
         loginButton.style.display = "block";
         logoutBtn.style.display = "none";
         modificationBtn.style.display = "none"; //cache le btn de modif si non co
+        editBar.style.display = 'none'; // Cache la barre d'édition
     }
 }
 
