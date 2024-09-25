@@ -62,7 +62,6 @@ function displayWorks(projects) {
     gallery.innerHTML = ""; // vider la galerie à chaque clique sur un bouton 
     galleryModal.innerHTML = ""; // vider la galerie à chaque clique sur un bouton 
 
-
     //Parcours chaque projet dans les données récup
     projects.forEach(project => {
         //Création de l'élément figure pour chaque projet
@@ -75,7 +74,7 @@ function displayWorks(projects) {
 
         //Création de l'élement figcaption pour afficher les descriptions sous les projets
         const figcaption = document.createElement("figcaption");
-        figcaption.textContent = project.title; //titre du projet 
+        figcaption.textContent = project.title + " - " + project.category.name; //titre du projet 
 
         //Ajoute l'élement img à l'intérieur de figure 
         figure.appendChild(img);
@@ -112,7 +111,10 @@ function filterProjects(category) {
     if (category === "Tous") {
         filteredProjects = works // si la catégorie est tous, on affiche tous les projets
     } else {
-        filteredProjects = works.filter(project => project.category.name === category); // sinon on affiche les projets de la caté qui correspond au bouton cliqué
+        const categoryId = categories.find(cat => cat.name === category)?.id;
+        
+        // Filtrer les projets par `categoryId`
+        filteredProjects = works.filter(project => project.category.id == categoryId);
     }
     displayWorks(filteredProjects);
 }

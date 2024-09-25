@@ -99,7 +99,8 @@ inputFile.addEventListener("change", () => {
 function fetchCategories() {
     fetch("http://localhost:5678/api/categories")
         .then(response => response.json())
-        .then(categories => {
+        .then(data => {
+            categories = data;
             populateCategorySelect(categories);
         })
         .catch(error => console.error("Erreur lors de la récupération des catégories:", error));
@@ -146,6 +147,9 @@ fetchCategories();
 modalForm.addEventListener("submit", (e) => {
     e.preventDefault();
     const formData = new FormData(modalForm);
+    const categoryId = formData.get("category"); // Récupérer l'ID de la catégorie
+    const categoryName = categories.find(cat => cat.id == categoryId)?.name; // Trouver le nom de la catégorie
+    
     console.log(formData);
     fetch("http://localhost:5678/api/works", {
         method: "POST",
@@ -163,6 +167,7 @@ modalForm.addEventListener("submit", (e) => {
             console.error("Erreur lors de l'ajout du projet:", data.error);
             alert("Erreur lors de l'ajout du projet.");
         } else {
+            data.category = { id: categoryId, name: categoryName };
             works.push(data);
             displayWorks(works, "gallery");
             displayWorks(works, "galleryModal");
@@ -179,13 +184,17 @@ modalForm.addEventListener("submit", (e) => {
     });
 });
 
+//vérif si tous les champs sont remplis 
 function verifFormCompleted() {
     const btnValidForm = document.getElementById("modalAddBtn");
     modalForm.addEventListener("input", () => {
+        //si une condition n'est pas vide on passe à la suivante 
         if (title.value !== "" && modalCategory.value !== "" && inputFile.value !== "") {
             btnValidForm.classList.add("valid");
+            //si cest  valider on ajoute la class valid donc le bouton vert et on le rend able
             btnValidForm.disabled = false;
         } else {
+            //sinon on enleve la class et on disabled donc true 
             btnValidForm.classList.remove("valid");
             btnValidForm.disabled = true;
         }
