@@ -1,8 +1,31 @@
-# Portfolio-architecte-sophie-bluel
+# Sophie Bluel Architecte 🏛️
 
-Code du projet 6 d'intégrateur web.
+Portfolio dynamique d’une architecte d’intérieur permettant la présentation des projets, l’authentification administrateur et la gestion des médias.
 
-## Information pour le lancer le code
+## Features
 
- - Lancer le backend depuis votre terminal en suivant les instruction du fichier ReadMe.
- - Si vous désirez afficher le code du backend et du frontend, faites le dans 2 instances de VSCode différentes pour éviter tout problème
+- Galerie dynamique des projets
+- Filtrage des travaux par catégories
+- Page de connexion administrateur
+- Authentification utilisateur
+- Modale d’ajout de nouveaux médias
+- Upload d’images via une API
+- Communication avec un back-end
+
+## Tech Stack
+
+- HTML5
+- CSS3
+- JavaScript
+- API REST
+- Fetch API
+- Node.js
+- Responsive Design
+- Figma
+- GitHub Pages
+
+## Installation
+
+```bash
+npm install
+npm start
