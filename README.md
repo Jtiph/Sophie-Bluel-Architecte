@@ -22,16 +22,10 @@ Portfolio dynamique d’une architecte d’intérieur permettant la présentatio
 - Node.js
 - Responsive Design
 - Figma
-- GitHub Pages
-
-## Live Site
-
-🌍 https://jtiph.github.io/sophie-bluel-architecte/
 
 ## Notes
 
-Le front-end est déployé via GitHub Pages
-Certaines fonctionnalités nécessitent le back-end local pour fonctionner complètement (authentification et upload de médias).
+Projet front-end connecté à une API locale Node.js
 
 ## Installation
 
