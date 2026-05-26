@@ -30,7 +30,7 @@ Portfolio dynamique d’une architecte d’intérieur permettant la présentatio
 
 ## Notes
 
-Le front-end est déployé via GitHub Pages.  
+Le front-end est déployé via GitHub Pages
 Certaines fonctionnalités nécessitent le back-end local pour fonctionner complètement (authentification et upload de médias).
 
 ## Installation
